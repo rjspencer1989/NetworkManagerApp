@@ -1,0 +1,186 @@
+-------------------------------------------
+Weathermap4rrd ** PHP and PERL ** CHANGELOG
+-------------------------------------------
+
+1.2b final
+	PHP
+		BUGS FIXED
+			- fix a security issue notified by Alla Bezroutchko (if register_global is set to ON in php.ini it could be exploited to hack server)
+			- fix config file path detection to avoid few errors
+			- add RRDTool 1.3 support
+
+1.2 final
+	PHP
+		BUGS fixed
+			- text display of bandwidth usage in rrdtool graph was displayed in bytes instead of bits on second line
+			- add weathermap.conf.example file
+			- translate a few french error messages to english language
+			- fix bug when no UNIT directive used (thank you to Ardeck)
+			- fix bug : IPCHECK directive was not detected and had no effect
+			- fix bug : file defined in HTMLFILE can't be create the first time
+			- fix bug : REFRESH directive had no effect. 60s was hardcoded (thanks to wasu)
+			
+1.2 RC8
+
+	PHP
+		BUGS fixed
+			DS name in RRDTool file were stored in code. Detect DS names from position in RRD file.
+			hardcoded call to rrdtool in rrd.php fixed.
+			histo.php called index.php instead of w4rrd.php since 1.2RC6 release
+			
+			
+		Enhancement
+			Graph are displayed in bits rather than in bytes
+			add checks for debugging in graph generation
+			add capability to display your own content in overlib window like with
+						LINKOVERLIBGRAPH http://www.google.fr/intl/fr_fr/images/logo.gif
+					or
+						LINKOVERLIBGRAPH currentvalues.php (where currentvalues.php could be replaced by your own php script)
+						You have to set up php.ini file with allow_url_fopen = On. For security reason this is often disabled. 
+						See http://fr.php.net/manual/en/ref.filesystem.php#ini.allow-url-fopen for details.
+
+
+			disable label display if no label is set in configuration file
+			allow to choose display node with a circle instead of usual box (LABELTYPE round)
+			allow to disable display of number on internodes rounds (INTERNODENUMDISP directive)
+			allow to disable display of color round for middle internode (INTERNODEDISPLAYMID directive)
+			allow to use different source files for input and output values of a link (TARGETIN and TARGETOUT directives)
+			new legend display available (LEGENDSTYLE line)
+			new type of link arrows available (ARROW halfarrow)
+
+
+1.2 RC7
+
+	PHP
+
+		BUGS fixed
+			height and width map display that created a blank screen with Internet Explorer
+			config variable was not take into account by index.php. It was only with w4rrd.php.
+
+			Thank you to Dan Lowry for his contribution to fix theses bugs
+
+1.2 RC6 
+
+	PHP
+		BUGS fixed
+			sometimes last value of RRDTool 1.2 database was not found
+
+		NEW FEATURES
+			add link bandwidth graph popup over map (LINKOVERLIBGRAPH,LINKINFOURL,HTMLFILE directives)
+				(thank you to Bertrand Schvallinger and others that send me some ideas or code). 
+				WARNING : you need to copy overlib_mini.js to your webserver docroot. This file is used by index.php.
+				
+			add capability of choosing configuration filename with "config" variable (example : http://myserver/weathermap/index.php?config=internet.conf )
+				(thank you to hoffswell for his simple but useful modification)
+			add node check (IP and CHECK directives)
+				You are able to test node presence in network (ping or tcp port check available). 
+				I suggest to use TCP check rather than ping because it is really faster if node is unreachable.
+			add new legend display available (use LEGENDSTYLE directive to choose between "original" or "line" style)
+			add LEGENDPOS directives to define LEGEND position in map (same as KEYPOS that is still available)
+			add REFRESH directive to specify period between refresh of display (default is 60 seconds)
+				
+
+1.2 RC5 30th May, 2005
+
+	PHP :
+		BUGS fixed
+		fix % value displayed if > 100%
+		fix an important bug about reading values in RRD file 
+		fix error when ICONRESIZE too low to create image bounds greater than 1 pixel
+		fix error when no icon are defined in configuration file
+		fix circle bad display in some case
+		
+		NEW FEATURES
+		add rrdstep parameters in config.php script (this parameter is used for RRDTool 1.2. You should set ip up with the base interval in seconds with which data have been fed into your RRD file
+		add GROUP directive support to PHP version
+		add MRTG reading capability (if .htm or .html extension is detected in TARGET)
+		add FORCEMRTG directive to force TARGET to be treated as a MRTG link
+		add BACKGROUNDCOLOR directive to define a background color on map
+		add capability to generate graph for past date (see Documentation for details)
+		add histo.php to generate animation of past bandwidths usage (let me know if you find this option useful)
+
+		OTHER
+		few minors improvement
+		improve error message display
+
+		Special thanks to Mitio Matanov for his support and his suggestions.
+
+V1.2 RC4
+	PHP :
+		fix black title background display when no TITLEFOREGROUND and TITLEBACKGROUND are not used
+		fix bug with arrow "circle" mode. 
+		fix bug with RRDTool v1.2
+	
+V1.2 RC3 21st May 2005
+	Perl release :
+		add RRDTool v1.2 support
+		fix black title background display when no TITLEFOREGROUND and TITLEBACKGROUND are not used
+		add INTERNODEDISPLAY directive to display number of internode on graph
+
+	PHP :
+		add RRDTool v1.2 support
+		fix black title background display when no TITLEFOREGROUND and TITLEBACKGROUND are not used
+		add INTERNODEDISPLAY directive to display number of internode on graph
+
+V1.2 RC2b 6th May 2005
+	Perl release :
+		fix bug for IN value link display (thanks to hoffswell)
+
+V1.2 RC2 6th May 2005
+	Perl release :
+		fix bug for some use of internodes (thanks to Alexandre Modesto)
+		fix bug : normal arrow was not displayed correctly when no INTERNODE defined (thanks to Dan Lowry)
+		fix bug : AUTOSCALE directive behavior was not correct compared to PHP version (thanks to hoffswell)
+
+v1.2 RC1 4th May 2005
+
+	fix bug for black background when no BACKGROUND directive is used.
+	add conditions for use of AntiAlias GD features (need GD2 version >=2.0.12)
+	add GROUP subdirective usage to allow filter for display
+	add FONT directive usage to set size of font used to display label and bandwidth values
+	add ICON subdirective usage to display icon for nodes
+	add ICONPOS subdirective usage to set up position of icon
+	add ICONTPT subdirective usage to set up transparency of icon
+	add ICONRESIZE subdirective usage to resize icon for nodes
+	add AUTOSCALE directive usage to create gradient for Trafic Load legend
+	add TITLEBACKGROUND directive
+	add TITLEFOREGROUND directive
+
+
+*******************************************
+        No previous PHP version. 
+*******************************************
+Below is CHANGELOG for perl version only
+
+v1.1.1h 23rd Apr 2005
+    fix bug for bandwidth calculating (thank you to Florent M.)
+	fix bug for black background when no BACKGROUND directive is used (thank you to Pierre-Yves M.).
+
+v1.1.1g 30th Mar 2005
+	fix bug for node name that includes "-" character
+	fix bug for PNG background picture based on 8 bits color palette.
+	add black background for Weathermap banner
+	add dot arrow feature available with ARROW directive in config file (for normal arrow use "ARROW normal" / for dot arrow use "ARROW dot")
+	(thanks to Alexandre Modesto for suggestions)
+	
+v1.1.1f 3rd Mar 2005
+	split in and out bandwidth value that allow to use WeatherMap4RRD with asynchronous link like ADSL (thanks to Pierre-Yves Maunier for suggestion) 
+
+v1.1.1e 3rd Feb 2005
+	fix bug for null value read from RRDTool database in some case
+
+v1.1.1d: 1st Feb 2005
+	add version display in DEBUG mode to help people sending me output for debug.
+	add binmode for png generation on Win32
+
+v1.1.1c: 29 Jan 2005
+	Modify --version option to display good informations about Weathermap4rrd
+	Remove CONFIGFILE directive in configuration file (stupid because CONFIGFILE is obvious already read!!)
+
+v1.1.1b: 22 Jan 2005
+	Added following options :
+		- generation of graph based on past date (--date option)
+		- several parameters can be place in config file (TITLE, TITLEPOS, DISPLAYVALUE and others...see INSTALL file for details)
+
+v1.1.1: Jan 2005
+	Initial release of Weathermap4rrd based on Network Weathermap version 1.1.1

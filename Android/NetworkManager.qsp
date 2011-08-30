@@ -1,0 +1,14 @@
+\Version{ "2.2.0  Pro" }
+\Name{ "NetworkManager" }
+\JavaVersion{ "1.6" }
+\ProductID{ "1" }
+\ShowIncompleteMessage{ true }
+\OutputPath{ "/Users/rob/Documents/cs/part2/NetworkManager/bin" }
+\ClassPath{
+  \Path{ "/Applications/android-sdk-mac_86/platforms/android-7/android.jar" }
+}
+\SourcePath{
+  \Path{ "/Users/rob/Documents/cs/part2/NetworkManager/src" }
+  \Path{ "/Users/rob/Documents/cs/part2/NetworkManager/gen" }
+}
+\ProjectMembersDir{ "." }

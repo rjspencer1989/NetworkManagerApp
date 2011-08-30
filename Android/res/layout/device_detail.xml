@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/widget47" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout android:id="@+id/widget48"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="vertical">
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:id="@+id/widget55" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Name:">
+			</TextView>
+			<TextView android:id="@+id/TextViewDeviceName"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="TextView">
+			</TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<TextView android:id="@+id/widget60" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="MAC Address:">
+		</TextView>
+			<TextView android:id="@+id/TextViewMACAddress"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="TextView">
+		</TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<TextView android:id="@+id/widget61" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="IP Address:">
+		</TextView>
+		<TextView android:id="@+id/TextViewIPAddress"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="TextView">
+		</TextView>
+		</LinearLayout>
+		<TextView android:id="@+id/widget53" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="Recent Sites">
+		</TextView>
+		<TextView android:id="@+id/dns_list" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="TextView">
+		</TextView>
+	</LinearLayout>
+</ScrollView>

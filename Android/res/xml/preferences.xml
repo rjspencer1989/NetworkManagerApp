@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<EditTextPreference android:title="@string/router_ip" android:key="ip_preference" android:summary="@string/router_ip_summary"></EditTextPreference>
+<EditTextPreference android:title="Router Password" android:summary="Password to manage router" android:key="password_preference" android:password="true"/>
+<EditTextPreference android:title="Application Password" android:summary="Password to access this application" android:key="app_password_preference" android:password="true"/>
+</PreferenceScreen>

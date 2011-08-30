@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      android:versionCode="1"
+      android:versionName="0.1 alpha" package="com.networkmanagerapp">
+    <application android:label="@string/app_name" android:debuggable="false" android:icon="@drawable/ic_launcher">
+        <activity android:name="NetworkManagerMainActivity"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    
+
+<activity android:name="DevicesListView"></activity>
+<activity android:name="NetworkSettingsListView"></activity>
+<activity android:name="DeviceView"></activity>
+<activity android:name="NetworkSettingView"></activity>
+<activity android:name="Preferences"></activity>
+
+ <service android:enabled="true" android:name="XMLBackgroundDownloaderService"></service>
+<activity android:name="WeathermapViewer"></activity>
+<service android:name="RestartWifi"></service>
+<service android:name="SettingBackgroundUploader"></service>
+<activity android:name="ExistingAppPassword"></activity>
+<activity android:name="NewAppPassword"></activity>
+</application>
+	<uses-permission android:name="android.permission.INTERNET" />
+<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="12"></uses-sdk>
+
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+</manifest> 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Network Manager</string>
+    <string name="accept_button_text">O.K.</string>
+    <string name="invalid_key_title">Invalid Password</string>
+    <string name="invalid_key">The password you entered is invalid. It must be 26 characters long and contain 0-9 and A-F only.</string>
+	<string name="menu_refresh">Refresh</string>
+	<string name="refresh_date">Refreshed on:</string>
+	<string name="menu_reboot">Apply Settings</string>
+	<string name="menu_settings">Settings</string>
+	<string name="password_short">The password should be 26 characters long</string>
+	<string name="router_ip">Router IP Address</string>
+	<string name="router_ip_summary">The IP Address of your wifi router</string>
+	<string name="dns_length">URLs Accessed</string>
+	<string name="dns_length_summary">Set number of URLS to show</string>
+	<string name="set_router_ip">Set</string>
+	<string name="no_data">There is no data to display at the moment</string>
+	<string name="download_service_started">Downloading XML Files</string>
+	<string name="wifi_service_restarted">Restarting WIFI</string>
+	<string name="upload_service_started">Updating Setting</string>
+	<string name="update_settings">Update Settings</string>
+	<string name="update_button_text">Update Setting</string>
+	<string name="unmask">Show Characters</string>
+	<string name="encryption_type_label">Encryption Type</string>
+	<string name="channel_label">Channel</string>
+	<string name="localhost">127.0.0.1</string>
+	<string name="dns_label">Sites Accessed</string>
+	<string-array name="channel_array">
+		<item>-</item>
+		<item>Auto</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+	</string-array>
+	<string-array name="encryption_array">
+		<item>-</item>
+		<item>None</item>
+		<item>WEP</item>
+		<item>WPA</item>
+		<item>WPA2</item>
+	</string-array>
+</resources>

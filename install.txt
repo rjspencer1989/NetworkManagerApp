@@ -1,0 +1,97 @@
+To install the router component of Network Manager, follow these steps
+Download and install OPENWRT on your router if you haven't already. Instructions can be found on the OPENWRT
+website, located at http://openwrt.org/. Please note, the router scripts currently only support routers based on
+the Atheros WIFI chipset, using ATH9K software. It requires the 'iw' command to obtain state information.
+Follow the instructions in basic configuration of OPENWRT to enable WIFI on your router and enable SSH login.
+Go to http://wiki.openwrt.org/doc/howto/firstlogin and enable SSH secure log in and then proceed to the basic
+configuration page.
+Follow the instructions at http://wiki.openwrt.org/doc/howto/usb.storage to enable USB storage on your router.
+You need a USB Disk / thumb drive to store the router scripts.
+Install the following modules with the opkg install command: hostapd, wpa-supplicant, ntp-client, php5,
+php5-cgi
+These instructions assume you mount your USB disk at /mnt/usbdisk. You will need to replace any reference to this
+as applicable to your setup.
+You will need to follow the instructions to enable auto mount on boot listed on the USB storage page.
+You will be setting storing files on the USB disk that other components require to start, so the disk needs to
+be available when the router is turned on.
+To edit files you need to use the editor vi. To edit text in a file, press i. When you are done press the
+escape key. Then press : then w then q and then press enter to save and quit.
+Run the following commands to set up files needed, pressing enter after each one.
+cd /mnt/usbdisk
+mkdir www
+cd www
+mkdir dns
+touch dns/log
+mkdir uploads
+mkdir xml
+chmod a+w xml
+ls
+The last command will list all the files and folders you have in your www folder.
+You should have cgi-bin, dns, luci-static, index.html, upload.php, uploads and xml
+If any of cgi-bin, dns, uploads or xml are missing run mkdir name, but replace name with the name of the missing 
+folder.
+Then run vi /etc/dnsmasq.conf.
+Add the following lines at the bottom of the file replacing /mnt/usbdisk with the location of your
+usb disk, save and quit:
+log-queries
+log-facility=/mnt/usbdisk/www/dns/log
+The router needs to accept data over the Internet, open /etc/config/firewall and add the following lines, save 
+and quit:
+config 'rule'
+option 'src' 'wan'
+option 'proto' 'tcp'
+option 'dest_port' '1080'
+option 'target' 'ACCEPT'
+config 'rule'
+option 'src' 'wan'
+option 'proto' 'tcp'
+option 'dest_port' '1085'
+option 'target' 'ACCEPT'
+Now you have permitted access, you need to configure the router to request a password for every configuration
+page requested. To do so, you should run vi /etc/httpd.conf
+Add the following line, save and quit
+/:root:$p$root
+It must be in exactly that format. Your username will be root, and your password will be the one you entered
+in the passwd command shown on the first login page linked above
+Now you need to edit the webserver configuration.
+vi /etc/config/uhttpd
+edit the line list listen_http so that the port is changed to 1080
+edit the line option home so that the 3rd value is the location of the www folder on your usb disk
+for example it could be
+option home /mnt/usbdisk/www
+There should not be a / on the end
+Add the following 2 lines to the file (line containing php may already be present, just remove the # if it is)
+list interpreter ".php=/usr/bin/php-cgi"                
+list interpreter ".sh=/bin/sh"
+Then save and close the file
+Then you need to configure the PHP script interpreter
+vi /etc/php.ini
+edit the line with short_open_tag so that it has "= On" without quotes
+edit the line cgi.force_redirect  so that it has "= 0" without quotes
+edit the line doc_root so that it has = "/mnt/usbdisk/www" (including quotes must be same as option home in
+/etc/config/uhttpd)
+save and quit
+enter the following command and press enter
+/etc/init.d/uhttpd enable
+That command starts the webserver at boot
+then run /etc/init.d/uhttpd start
+If configured correctly, you should see a success response
+try and navigate to http://192.168.1.1:1085 in a webbrowser
+You should see a popup asking for a username and password
+enter root and the password set in the passwd command
+You should then see the luci login screen, and be able to login. This is described in the basic configuration
+pages.
+If everything works, next do
+cd /mnt/usb-disk/www/cgi-bin
+wget http://networkmanagerapp.com/support_files/devices.sh
+wget http://networkmanagerapp.com/support_files/networkSettings.sh
+wget http://networkmanagerapp.com/support_files/rrd.sh
+wget http://networkmanagerapp.com/support_files/upload.php
+wget http://networkmanagerapp.com/support_files/wifi.sh
+For each of those files, you need to do chmod a+x filename
+eg chmod a+x devices.sh
+Assuming you have devices connected to your router via WIFI, navigate to 
+http://192.168.1.1:1080/cgi-bin/devices.sh
+You should get a response of Success.
+You can then navigate to http://192.168.1.1:1080/xml/devices.xml and you should see details about connected 
+devices

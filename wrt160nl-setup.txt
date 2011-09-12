@@ -1,56 +1,12 @@
-#configure wrt160nl for NetworkManagerApp
-#Install openwrt 10.03
-opkg install kmod-ath9k
-opkg install hostapd
-opkg install wpa-supplicant
-opkg install ntpclient
-opkg install php5 php5-cgi
-opkg install libsqlite3
-opkg install rrdtool
-opkg install php5-mod-gd
-opkg install kmod-usb-core
-opkg install kmod-usb2
-opkg install kmod-usb-storage
-opkg install fdisk
-opkg install kmod-fs-vfat 
-opkg install kmod-fs-ext2 
-opkg install kmod-fs-ext3
-opkg install block-hotplug
-opkg install usbutils
-opkg install kmod-nls-base 
-opkg install kmod-nls-cp437
-opkg install kmod-nls-cp850
-opkg install kmod-nls-iso8859-1
-opkg install kmod-nls-iso8859-15
-opkg install kmod-nls-utf8
-
-rm -f /etc/config/wireless
-wifi detect > /etc/config/wireless
-edit /etc/config/wireless with new ssid, encryption type and password
-wifi
-/etc/init.d/network restart
 update /etc/config/uhttpd - list interpreter php, set listen port, set docroot, set interpreter for sh scripts
 customise /etc/dnsmasq.conf	to enable logging and set log file location
 customise /etc/config/firewall to enable access outside of LAN
-include mod-gd library in php.ini
 enable short open tag in php.ini
 set cgi force_redirect to 0 in php.ini
 change docroot in php.ini
-insmod ehci-hcd
-insmod scsi_mod - may get file exists
-insmod sd_mod - may get file exists
-insmod usb-storage - may get file exists
-reboot
-fdisk -l to find your disk
-
 mkdir /mnt/usbdisk
-mount <partition from fdisk -l> /mnt/usbdisk
-edit /etc/config/fstab to allow automount and umount
 /etc/init.d/uhttpd enable
 mkdir docroot/xml
 chmod a+w docroot/xml
-get latest version of weathermap
-configure rrdtool to collect data
-configure weathermap to create images
 install shell scripts and php scripts to run network manager in docroot/cgi-bin
 mkdir docroot/uploads

@@ -1,3 +1,4 @@
+#!/bin/sh
 #Copyright 2011 Robert Spencer
 #This file is part of NetworkManagerApp Router
 #NetworkManagerApp Router is free software: you can redistribute it and/or modify
@@ -12,7 +13,6 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with NetworkManagerApp Router.  If not, see <http://www.gnu.org/licenses/>. 
-#!/bin/sh
 path=$(uci get uhttpd.main.home)
 jsonPath=$path"/json/devices.json"
 echo "["  > $jsonPath
@@ -31,5 +31,7 @@ echo "\"ipAddress\" : \""$ip"\"," >> $jsonPath
 echo "\"dns\" : \""$dns"\"" >> $jsonPath
 echo "}," >> $jsonPath
 done
+content=$(sed '$s/.$//' $jsonPath)
+echo $content > $jsonPath
 echo "]" >> $jsonPath
 echo "Success"

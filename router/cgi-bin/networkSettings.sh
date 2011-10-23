@@ -11,34 +11,35 @@
 #GNU General Public License for more details.
 #
 #You should have received a copy of the GNU General Public License
-#along with NetworkManagerApp Router.  If not, see <http://www.gnu.org/licenses/>. 
+#along with NetworkManagerApp Router.  If not, see \"http://www.gnu.org/licenses/>. 
 #!/bin/sh
-path=$(uci get uhttpd.main.home)"/"
-echo "<root>" > $path"xml/networkSettings.xml"
-echo "<item>" >> $path"xml/networkSettings.xml"
-echo "<name>SSID (Name)</name>" >> $path"xml/networkSettings.xml"
-echo "<value>" >> $path"xml/networkSettings.xml"
-grep ssid /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $path"xml/networkSettings.xml"
-echo "</value>" >> $path"xml/networkSettings.xml"
-echo "</item>" >> $path"xml/networkSettings.xml"
-echo "<item>" >> $path"xml/networkSettings.xml"
-echo "<name>Security Type</name>" >> $path"xml/networkSettings.xml"
-echo "<value>" >> $path"xml/networkSettings.xml"
-grep encryption /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $path"xml/networkSettings.xml"
-echo "</value>" >> $path"xml/networkSettings.xml"
-echo "</item>" >> $path"xml/networkSettings.xml"
-echo "<item>" >> $path"xml/networkSettings.xml"
-echo "<name>Password</name>" >> $path"xml/networkSettings.xml"
-echo "<value>" >> $path"xml/networkSettings.xml"
-grep key /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $path"xml/networkSettings.xml"
-echo "</value>" >> $path"xml/networkSettings.xml"
-echo "</item>" >> $path"xml/networkSettings.xml"
-echo "<item>" >> $path"xml/networkSettings.xml"
-echo "<name>Channel</name>" >> $path"xml/networkSettings.xml"
-echo "<value>" >> $path"xml/networkSettings.xml"
-grep channel /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $path"xml/networkSettings.xml"
-echo "</value>" >> $path"xml/networkSettings.xml"
-echo "</item>" >> $path"xml/networkSettings.xml"
-echo "</root>" >> $path"xml/networkSettings.xml"
+path=$(uci get uhttpd.main.home)
+jsonPath=$path"/json/networkSettings.json"
+echo "[" > $jsonPath
+echo "{" >> $jsonPath
+echo "\"name\" : \"SSID (Name)\"," >> $jsonPath
+echo "\"value\" : " >> $jsonPath
+grep ssid /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $jsonPath
+echo "\"value\"" >> $jsonPath
+echo "}," >> $jsonPath
+echo "{" >> $jsonPath
+echo "\"name\" : \"Security Type\"," >> $jsonPath
+echo "\"value\" : " >> $jsonPath
+grep encryption /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $jsonPath
+echo "\"value\"" >> $jsonPath
+echo "}," >> $jsonPath
+echo "{" >> $jsonPath
+echo "\"name\" : \"Password\"," >> $jsonPath
+echo "\"value\" : " >> $jsonPath
+grep key /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $jsonPath
+echo "\"value\"" >> $jsonPath
+echo "}," >> $jsonPath
+echo "{" >> $jsonPath
+echo "\"name\" : \"Channel\"," >> $jsonPath
+echo "\"value\"" >> $jsonPath
+grep channel /etc/config/wireless | awk '{print substr($3, 2, length($3) - 2)}' >> $jsonPath
+echo "\"value\"" >> $jsonPath
+echo "}" >> $jsonPath
+echo "]" >> $jsonPath
 echo "Success"
 

@@ -49,15 +49,15 @@ import android.util.Log;
  * @author rjs07u
  *
  */
-public class XMLBackgroundDownloaderService extends IntentService {
+public class JSONBackgroundDownloaderService extends IntentService {
 	public static final String NEW_DATA_AVAILABLE = "New XML Downloaded";
 	private NotificationManager mNM;
 	
 	/**
 	 * The constructor. Passes a name to the superclass for debugging purposes.
 	 */
-	public XMLBackgroundDownloaderService() {
-		super("XMLBackgroundDownloaderService");
+	public JSONBackgroundDownloaderService() {
+		super("JSONBackgroundDownloaderService");
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class XMLBackgroundDownloaderService extends IntentService {
 		mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		showNotification();
 		String filename = arg0.getStringExtra("FILENAME");
-		String xmlFile = arg0.getStringExtra("XMLFILE");
+		String jsonFile = arg0.getStringExtra("JSONFILE");
 		try{
 			String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password_preference", "");
 			String scriptUrl = "http://" + PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1") + ":1080" +filename;
@@ -104,7 +104,7 @@ public class XMLBackgroundDownloaderService extends IntentService {
 			
 			
 			HttpResponse response = client.execute(request);
-			Log.d("XBDS", response.getStatusLine().toString());
+			Log.d("JBDS", response.getStatusLine().toString());
 			InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
@@ -115,10 +115,10 @@ public class XMLBackgroundDownloaderService extends IntentService {
             in.close();
             
 			if(str.toString().equals("Success\n")){
-				String xmlUrl = "http://" + PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1") + ":1080/xml" +xmlFile;
+				String xmlUrl = "http://" + PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1") + ":1080/json" +jsonFile;
 				request = new HttpGet(xmlUrl);
-				HttpResponse xmlData = client.execute(request);
-				in = xmlData.getEntity().getContent();
+				HttpResponse jsonData = client.execute(request);
+				in = jsonData.getEntity().getContent();
 				reader = new BufferedReader(new InputStreamReader(in));
 				str = new StringBuilder();
 				line = null;
@@ -127,7 +127,7 @@ public class XMLBackgroundDownloaderService extends IntentService {
 	            }
 	            in.close();
 				
-				FileOutputStream fos = openFileOutput(xmlFile.substring(1), Context.MODE_PRIVATE);
+				FileOutputStream fos = openFileOutput(jsonFile.substring(1), Context.MODE_PRIVATE);
 				fos.write(str.toString().getBytes());
 				fos.close();
 			}

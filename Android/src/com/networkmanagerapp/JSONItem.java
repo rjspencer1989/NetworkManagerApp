@@ -24,9 +24,9 @@ import java.util.Map;
  * itemData map contains the individual values from the XML within <item></item> 
  * Keys for data are the element names from the XML file 
  */
-class XMLItem {
+class JSONItem {
 	private Map<String, String> itemData;
-	public XMLItem(){
+	public JSONItem(){
 		this.itemData = new HashMap<String, String>();
 	}
 	

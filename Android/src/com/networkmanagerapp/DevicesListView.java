@@ -33,16 +33,16 @@ import android.widget.TextView;
 
 public class DevicesListView extends ListActivity {
 	private static final int DEVICE_VIEW = 0;
-	private List<XMLItem> items;
+	private List<JSONItem> items;
 	private static DevicesListView instance;
 	private DataReceiver receiver;
 	private TextView lastRefresh;
 	
-	public List<XMLItem> getItems() {
+	public List<JSONItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<XMLItem> arrayList) {
+	public void setItems(List<JSONItem> arrayList) {
 		this.items = arrayList;
 	}
 
@@ -87,9 +87,9 @@ public class DevicesListView extends ListActivity {
 	 * Request new data from the router
 	 */
 	protected void getData() {		
-		Intent i = new Intent(this, XMLBackgroundDownloaderService.class);
+		Intent i = new Intent(this, JSONBackgroundDownloaderService.class);
 		i.putExtra("FILENAME", "/cgi-bin/devices.sh");
-		i.putExtra("XMLFILE", "/devices.xml");
+		i.putExtra("JSONFILE", "/devices.json");
 		startService(i);
 	}
 	
@@ -109,7 +109,7 @@ public class DevicesListView extends ListActivity {
 	 */
 	@Override
 	protected void onResume() {
-		IntentFilter filter = new IntentFilter(XMLBackgroundDownloaderService.NEW_DATA_AVAILABLE);
+		IntentFilter filter = new IntentFilter(JSONBackgroundDownloaderService.NEW_DATA_AVAILABLE);
 		receiver = new DataReceiver();
 		registerReceiver(receiver, filter);
 		updateList();
@@ -120,7 +120,7 @@ public class DevicesListView extends ListActivity {
 	 * Updates the list of connected devices
 	 */
 	protected void updateList(){
-		XMLParsingResults results = new XmlParser().returnParsedData("/devices.xml");
+		JSONParsingResults results = new JSONParser().returnParsedData("/devices.json");
 		setItems(results.getItem());
 		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results.getNames()));
 		lastRefresh.setText("Refreshed on: " + new Date(new File(getFilesDir().toString() + "/devices.xml").lastModified()).toString());

@@ -23,8 +23,8 @@ import java.util.List;
  * An instance of this class stores the ArrayList of XMLItems and String array of XMLItem names
  * from a parsed XML file
  */
-public class XMLParsingResults {
-	private List<XMLItem> item;
+public class JSONParsingResults {
+	private List<JSONItem> item;
 	private String[] names;
 	
 	/**
@@ -32,7 +32,7 @@ public class XMLParsingResults {
 	 * @param names The string array containing the names of XMLItem objects
 	 * @param items The ArrayList containing the actual XMLItem objects
 	 */
-	public XMLParsingResults(String[] names, List<XMLItem> items){
+	public JSONParsingResults(String[] names, List<JSONItem> items){
 		setItem(items);
 		setNames(names);
 	}
@@ -41,7 +41,7 @@ public class XMLParsingResults {
 	 * Get a List of all the XMLItems 
 	 * @return the List of XMLItems
 	 */
-	public List<XMLItem> getItem() {
+	public List<JSONItem> getItem() {
 		return item;
 	}
 	
@@ -49,7 +49,7 @@ public class XMLParsingResults {
 	 * Set the List of XMLItems. Called from the constructor. There should be no need to call this directly.
 	 * @param item The List of XMLItem objects
 	 */
-	public void setItem(List<XMLItem> item) {
+	public void setItem(List<JSONItem> item) {
 		this.item = item;
 	}
 	

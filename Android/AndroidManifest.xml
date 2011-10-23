@@ -20,7 +20,7 @@
 <activity android:name="NetworkSettingView"></activity>
 <activity android:name="Preferences"></activity>
 
- <service android:enabled="true" android:name="XMLBackgroundDownloaderService"></service>
+ <service android:enabled="true" android:name=".JSONBackgroundDownloaderService"></service>
 <activity android:name="WeathermapViewer"></activity>
 <service android:name="RestartWifi"></service>
 <service android:name="SettingBackgroundUploader"></service>

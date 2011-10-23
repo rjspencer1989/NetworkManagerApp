@@ -23,7 +23,7 @@ dhcp=$(cat /tmp/dhcp.leases | grep $MAC | awk '{print $2; print $3; if($4 == "*"
 hw=$(echo $dhcp | awk '{print $1}')
 ip=$(echo $dhcp | awk '{print $2}')
 name=$(echo $dhcp | awk '{print $3}')
-dns=$(cat $path"dns/log" | grep query | grep [A] | grep $ip | tail -n 50 | awk '{print $6}')
+dns=$(cat $path"/dns/log" | grep query | grep [A] | grep $ip | tail -n 50 | awk '{print $6}')
 echo "{"  >> $jsonPath
 echo "\"name\" : \""$name"\","  >> $jsonPath
 echo "\"macAddress\" : \""$hw"\","  >> $jsonPath

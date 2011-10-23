@@ -38,15 +38,15 @@ import android.widget.TextView;
  */
 public class NetworkSettingsListView extends ListActivity {
 	private static NetworkSettingsListView instance;
-	private List<XMLItem> items;
+	private List<JSONItem> items;
 	private DataReceiver receiver;
 	private TextView lastRefresh;
 	
-	public List<XMLItem> getItems() {
+	public List<JSONItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<XMLItem> items) {
+	public void setItems(List<JSONItem> items) {
 		this.items = items;
 	}
 	
@@ -86,9 +86,9 @@ public class NetworkSettingsListView extends ListActivity {
 	 * @see XMLBackgroundDownloader
 	 */
 	protected void getData() {		
-		Intent i = new Intent(this, XMLBackgroundDownloaderService.class);
+		Intent i = new Intent(this, JSONBackgroundDownloaderService.class);
 		i.putExtra("FILENAME", "/cgi-bin/networkSettings.sh");
-		i.putExtra("XMLFILE", "/networkSettings.xml");
+		i.putExtra("JSONFILE", "/networkSettings.json");
 		startService(i);
 	}
 	/**
@@ -107,7 +107,7 @@ public class NetworkSettingsListView extends ListActivity {
 	 */
 	@Override
 	protected void onResume() {
-		IntentFilter filter = new IntentFilter(XMLBackgroundDownloaderService.NEW_DATA_AVAILABLE);
+		IntentFilter filter = new IntentFilter(JSONBackgroundDownloaderService.NEW_DATA_AVAILABLE);
 		receiver = new DataReceiver();
 		registerReceiver(receiver, filter);
 		super.onResume();
@@ -117,7 +117,7 @@ public class NetworkSettingsListView extends ListActivity {
 	 * Updates the list with new data from the parsed data results.
 	 */
 	protected void updateList(){
-		XMLParsingResults results = new XmlParser().returnParsedData("/networkSettings.xml");
+		JSONParsingResults results = new JSONParser().returnParsedData("/networkSettings.json");
 		setItems(results.getItem());
 		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results.getNames()));
 		lastRefresh.setText("Refreshed on: " + new Date(new File(getFilesDir().toString() + "/networkSettings.xml").lastModified()).toString());

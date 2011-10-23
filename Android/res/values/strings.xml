@@ -15,7 +15,7 @@
 	<string name="dns_length_summary">Set number of URLS to show</string>
 	<string name="set_router_ip">Set</string>
 	<string name="no_data">There is no data to display at the moment</string>
-	<string name="download_service_started">Downloading XML Files</string>
+	<string name="download_service_started">Downloading Data</string>
 	<string name="wifi_service_restarted">Restarting WIFI</string>
 	<string name="upload_service_started">Updating Setting</string>
 	<string name="update_settings">Update Settings</string>

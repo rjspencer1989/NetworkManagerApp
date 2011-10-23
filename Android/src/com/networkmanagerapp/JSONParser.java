@@ -16,48 +16,59 @@
 
 package com.networkmanagerapp;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 /**
  * 
  * @author rjs07u
  * This class parses XML files and stores contents in XMLItem objects and creates an array of Strings containing item names
  */
-public class XmlParser {
+public class JSONParser {
 	
 	/**
 	 * @exception SAXException, ParserConfigurationException, FileNotFoundException, IOException, all handled internally
 	 * @param filename. The name of the XML file to parse.
-	 * @return XMLParsingResults object containing an arraylist of XMLItems and a string array of item names
+	 * @return JSONParsingResults object containing an arraylist of XMLItems and a string array of item names
 	 */
-	public XMLParsingResults returnParsedData(String filename){
-		List<XMLItem> items = new ArrayList<XMLItem>();
-		final XMLHandler myHandler = new XMLHandler();
-		XMLReader xmlReader;
+	public JSONParsingResults returnParsedData(String filename){
+		List<JSONItem> items = new ArrayList<JSONItem>();
 		try {
-			xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-			xmlReader.setContentHandler(myHandler);
 			FileInputStream fin = NetworkManagerMainActivity.getInstance().openFileInput(filename.substring(1));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+			String line;
+			StringBuilder builder = new StringBuilder();
+			while((line = reader.readLine())!=null){
+				builder.append(line);
+			}
 			
-			xmlReader.parse(new InputSource(fin));
-			items = myHandler.getItemData();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			JSONArray ja = new JSONArray(builder.toString());
+			for (int i = 0; i < ja.length(); i++){
+				JSONObject jo = (JSONObject) ja.get(i);
+				JSONItem item = new JSONItem();
+				Iterator it = jo.keys();
+				while(it.hasNext()){
+					String name = it.next().toString();
+					item.getItemData().put(name, jo.getString(name));
+				}
+				
+				items.add(item);
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (IOException e){
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		final ArrayList<String> itemArrayList = new ArrayList<String>(items.size());
@@ -66,6 +77,6 @@ public class XmlParser {
 		}
 		String[] names = new String[itemArrayList.size()];
 		itemArrayList.toArray(names);
-		return new XMLParsingResults(names, items);
+		return new JSONParsingResults(names, items);
 	}
 }

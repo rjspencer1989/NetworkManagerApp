@@ -123,7 +123,7 @@ public class DevicesListView extends ListActivity {
 		JSONParsingResults results = new JSONParser().returnParsedData("/devices.json");
 		setItems(results.getItem());
 		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results.getNames()));
-		lastRefresh.setText("Refreshed on: " + new Date(new File(getFilesDir().toString() + "/devices.xml").lastModified()).toString());
+		lastRefresh.setText("Refreshed on: " + new Date(new File(getFilesDir().toString() + "/devices.json").lastModified()).toString());
 	}
 
 	/**

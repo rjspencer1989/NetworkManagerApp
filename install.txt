@@ -23,12 +23,12 @@ cd www
 mkdir dns
 touch dns/log
 mkdir uploads
-mkdir xml
+mkdir json
 chmod a+w xml
 ls
 The last command will list all the files and folders you have in your www folder.
 You should have cgi-bin, dns, luci-static, index.html, upload.php, uploads and xml
-If any of cgi-bin, dns, uploads or xml are missing run mkdir name, but replace name with the name of the missing 
+If any of cgi-bin, dns, uploads or json are missing run mkdir name, but replace name with the name of the missing 
 folder.
 Then run vi /etc/dnsmasq.conf.
 Add the following lines at the bottom of the file replacing /mnt/usbdisk with the location of your
@@ -76,7 +76,7 @@ enter the following command and press enter
 That command starts the webserver at boot
 then run /etc/init.d/uhttpd start
 If configured correctly, you should see a success response
-try and navigate to http://192.168.1.1:1085 in a webbrowser
+try and navigate to http://192.168.1.1:1080 in a webbrowser
 You should see a popup asking for a username and password
 enter root and the password set in the passwd command
 You should then see the luci login screen, and be able to login. This is described in the basic configuration
@@ -93,5 +93,5 @@ eg chmod a+x devices.sh
 Assuming you have devices connected to your router via WIFI, navigate to 
 http://192.168.1.1:1080/cgi-bin/devices.sh
 You should get a response of Success.
-You can then navigate to http://192.168.1.1:1080/xml/devices.xml and you should see details about connected 
+You can then navigate to http://192.168.1.1:1080/json/devices.xml and you should see details about connected 
 devices

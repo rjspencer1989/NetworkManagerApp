@@ -120,7 +120,7 @@ public class NetworkSettingsListView extends ListActivity {
 		JSONParsingResults results = new JSONParser().returnParsedData("/networkSettings.json");
 		setItems(results.getItem());
 		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results.getNames()));
-		lastRefresh.setText("Refreshed on: " + new Date(new File(getFilesDir().toString() + "/networkSettings.xml").lastModified()).toString());
+		lastRefresh.setText("Refreshed on: " + new Date(new File(getFilesDir().toString() + "/networkSettings.json").lastModified()).toString());
 	}
 
 	/**

@@ -17,6 +17,7 @@
 package com.networkmanagerapp;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -72,7 +73,9 @@ public class RestartWifi extends IntentService {
 		showNotification();
 		try{
 			String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password_preference", "");
-			String scriptUrl = "http://" + PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1") + ":1080/cgi-bin/wifi.sh";
+			String ip = PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1");
+			String enc = URLEncoder.encode(ip, "utf-8");
+			String scriptUrl = "http://" + enc + ":1080/cgi-bin/wifi.sh";
 			HttpParams httpParams = new BasicHttpParams();
 			// Set the timeout in milliseconds until a connection is established.
 			int timeoutConnection = 3000;
@@ -81,13 +84,13 @@ public class RestartWifi extends IntentService {
 			// in milliseconds which is the timeout for waiting for data.
 			int timeoutSocket = 5000;
 			HttpConnectionParams.setSoTimeout(httpParams, timeoutSocket);
-			HttpHost targetHost = new HttpHost(PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1"), 1080, "http"); 
+			HttpHost targetHost = new HttpHost(enc, 1080, "http"); 
 			DefaultHttpClient client = new DefaultHttpClient(httpParams);
 			client.getCredentialsProvider().setCredentials(
 			        new AuthScope(targetHost.getHostName(), targetHost.getPort()), 
 			        new UsernamePasswordCredentials("root", password));
 			HttpGet request = new HttpGet(scriptUrl);
-			client.execute(request);
+			client.execute(targetHost, request);
 		}catch(IOException ex){
 			try{
 				Log.e("Network Manager reboot", ex.getLocalizedMessage());

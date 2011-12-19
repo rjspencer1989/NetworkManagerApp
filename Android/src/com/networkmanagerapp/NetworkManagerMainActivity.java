@@ -123,37 +123,37 @@ public class NetworkManagerMainActivity extends TabActivity {
 				loginIntent.putExtra("PASSWORD", password);
 				startActivityForResult(loginIntent, EXISTING_PASSWORD_INTENT);
 			}
+		}else{
+			instance = this;
+			tabHost = getTabHost(); // The activity TabHost
+			TabHost.TabSpec deviceSpec, settingsSpec, weathermapSpec;
+			Intent deviceIntent, settingsIntent, weathermapIntent;
+
+			// Create an Intent to launch an Activity for the tab (to be reused)
+			deviceIntent = new Intent().setClass(this, DevicesListView.class);
+			deviceSpec = tabHost.newTabSpec("devices").setIndicator("Devices",
+					getResources().getDrawable(android.R.drawable.ic_menu_call));
+			deviceSpec.setContent(deviceIntent);
+			tabHost.addTab(deviceSpec);
+
+			settingsIntent = new Intent().setClass(this,
+					NetworkSettingsListView.class);
+			settingsSpec = tabHost.newTabSpec("networksettings").setIndicator(
+					"Settings",
+					getResources().getDrawable(
+							android.R.drawable.ic_menu_preferences));
+			settingsSpec.setContent(settingsIntent);
+			tabHost.addTab(settingsSpec);
+
+			weathermapIntent = new Intent().setClass(this, WeathermapViewer.class);
+			weathermapSpec = tabHost.newTabSpec("weathermap").setIndicator(
+					"Overview",
+					getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
+			weathermapSpec.setContent(weathermapIntent);
+			tabHost.addTab(weathermapSpec);
+
+			tabHost.setCurrentTab(0);
 		}
-
-		instance = this;
-		tabHost = getTabHost(); // The activity TabHost
-		TabHost.TabSpec deviceSpec, settingsSpec, weathermapSpec;
-		Intent deviceIntent, settingsIntent, weathermapIntent;
-
-		// Create an Intent to launch an Activity for the tab (to be reused)
-		deviceIntent = new Intent().setClass(this, DevicesListView.class);
-		deviceSpec = tabHost.newTabSpec("devices").setIndicator("Devices",
-				getResources().getDrawable(android.R.drawable.ic_menu_call));
-		deviceSpec.setContent(deviceIntent);
-		tabHost.addTab(deviceSpec);
-
-		settingsIntent = new Intent().setClass(this,
-				NetworkSettingsListView.class);
-		settingsSpec = tabHost.newTabSpec("networksettings").setIndicator(
-				"Settings",
-				getResources().getDrawable(
-						android.R.drawable.ic_menu_preferences));
-		settingsSpec.setContent(settingsIntent);
-		tabHost.addTab(settingsSpec);
-
-		weathermapIntent = new Intent().setClass(this, WeathermapViewer.class);
-		weathermapSpec = tabHost.newTabSpec("weathermap").setIndicator(
-				"Overview",
-				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
-		weathermapSpec.setContent(weathermapIntent);
-		tabHost.addTab(weathermapSpec);
-
-		tabHost.setCurrentTab(0);
 	}
 
 	/**

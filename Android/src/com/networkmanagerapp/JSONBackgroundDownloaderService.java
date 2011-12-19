@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -83,7 +84,11 @@ public class JSONBackgroundDownloaderService extends IntentService {
 		String jsonFile = arg0.getStringExtra("JSONFILE");
 		try{
 			String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password_preference", "");
-			String scriptUrl = "http://" + PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1") + ":1080" +filename;
+			Log.d("password", password);
+			String ip = PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1");
+			String enc = URLEncoder.encode(ip, "UTF-8");
+			String scriptUrl = "http://" + enc + ":1080" +filename;
+			
 			HttpParams params = new BasicHttpParams();
 	        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 	        HttpProtocolParams.setContentCharset(params, "utf-8");
@@ -95,15 +100,14 @@ public class JSONBackgroundDownloaderService extends IntentService {
 			// in milliseconds which is the timeout for waiting for data.
 			int timeoutSocket = 20000;
 			HttpConnectionParams.setSoTimeout(params, timeoutSocket);
-			HttpHost targetHost = new HttpHost(PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1"), 1080, "http"); 
+			HttpHost targetHost = new HttpHost(enc, 1080, "http");
+			
 			DefaultHttpClient client = new DefaultHttpClient(params);
 			client.getCredentialsProvider().setCredentials(
 			        new AuthScope(targetHost.getHostName(), targetHost.getPort()), 
 			        new UsernamePasswordCredentials("root", password));
 			HttpGet request = new HttpGet(scriptUrl);
-			
-			
-			HttpResponse response = client.execute(request);
+			HttpResponse response = client.execute(targetHost, request);
 			Log.d("JBDS", response.getStatusLine().toString());
 			InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -115,9 +119,9 @@ public class JSONBackgroundDownloaderService extends IntentService {
             in.close();
             
 			if(str.toString().equals("Success\n")){
-				String xmlUrl = "http://" + PreferenceManager.getDefaultSharedPreferences(this).getString("ip_preference", "192.168.1.1") + ":1080/json" +jsonFile;
+				String xmlUrl = "http://" + enc + ":1080/json" +jsonFile;
 				request = new HttpGet(xmlUrl);
-				HttpResponse jsonData = client.execute(request);
+				HttpResponse jsonData = client.execute(targetHost, request);
 				in = jsonData.getEntity().getContent();
 				reader = new BufferedReader(new InputStreamReader(in));
 				str = new StringBuilder();
@@ -136,6 +140,10 @@ public class JSONBackgroundDownloaderService extends IntentService {
 		} catch (IOException e) {
 			try{
 				Log.e("NETWORK_MANAGER_XBD_IOE", e.getMessage());
+				StackTraceElement[] st = e.getStackTrace();
+				for(int i = 0; i < st.length; i++){
+					Log.e("NETWORK_MANAGER_XBD_IOE", st[i].toString());
+				}
 			} catch(NullPointerException ex){
 				Log.e("Network_manager_xbd_npe", ex.getLocalizedMessage());
 			}

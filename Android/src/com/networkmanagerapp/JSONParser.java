@@ -24,22 +24,24 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xml.sax.SAXException;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 /**
  * 
  * @author rjs07u
- * This class parses XML files and stores contents in XMLItem objects and creates an array of Strings containing item names
+ * This class parses JSON files and stores contents in JSONItem objects and creates an array of Strings containing item names
  */
 public class JSONParser {
 	
 	/**
-	 * @exception SAXException, ParserConfigurationException, FileNotFoundException, IOException, all handled internally
-	 * @param filename. The name of the XML file to parse.
-	 * @return JSONParsingResults object containing an arraylist of XMLItems and a string array of item names
+	 * @exception FileNotFoundException, IOException, all handled internally
+	 * @param filename. The name of the JSON file to parse.
+	 * @return JSONParsingResults object containing an arraylist of JSONItems and a string array of item names
 	 */
 	public JSONParsingResults returnParsedData(String filename){
 		List<JSONItem> items = new ArrayList<JSONItem>();
@@ -51,24 +53,24 @@ public class JSONParser {
 			while((line = reader.readLine())!=null){
 				builder.append(line);
 			}
-			
-			JSONArray ja = new JSONArray(builder.toString());
-			for (int i = 0; i < ja.length(); i++){
-				JSONObject jo = (JSONObject) ja.get(i);
+
+			JsonElement root = new JsonParser().parse(builder.toString());
+			JsonArray arr = root.getAsJsonArray();
+			for (int i = 0; i < arr.size(); i++){
+				JsonObject jo = arr.get(i).getAsJsonObject();
+				Set<Entry<String, JsonElement>> entry = jo.entrySet();
 				JSONItem item = new JSONItem();
-				Iterator it = jo.keys();
-				while(it.hasNext()){
-					String name = it.next().toString();
-					item.getItemData().put(name, jo.getString(name));
+				Iterator<Entry<String, JsonElement>> iterator = entry.iterator();
+				while(iterator.hasNext()){
+					Entry<String, JsonElement> next = iterator.next();
+					item.getItemData().put(next.getKey(), next.getValue().toString());
 				}
 				
 				items.add(item);
-			}
+			}	
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e){
-			e.printStackTrace();
-		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		final ArrayList<String> itemArrayList = new ArrayList<String>(items.size());
